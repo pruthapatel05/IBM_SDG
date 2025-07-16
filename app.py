@@ -18,6 +18,25 @@ def is_emergency(text):
     text_lower = text.lower()
     return any(keyword in text_lower for keyword in emergency_keywords)
 
+def get_contact_info(text):
+    text_lower = text.lower()
+    contacts = []
+
+    if any(word in text_lower for word in ["mental health", "depression", "anxiety", "suicide", "stress"]):
+        contacts.append("Mental Health Helpline: 9152987821")
+    if any(word in text_lower for word in ["heart", "cardiac", "stroke", "chest pain"]):
+        contacts.append("Cardiac Emergency Helpline: 1800-123-4567")
+    if any(word in text_lower for word in ["poisoning", "overdose"]):
+        contacts.append("Poison Control Helpline: 1800-111-222")
+    if any(word in text_lower for word in ["women", "pregnancy", "maternal"]):
+        contacts.append("Women’s Health Helpline: 1800-999-888")
+    if any(word in text_lower for word in ["child", "pediatric", "newborn"]):
+        contacts.append("Child Health Helpline: 1800-555-4444")
+
+    # Add more contact info blocks as needed
+
+    return contacts
+
 def sdg3_message_generator(prompt_text):
     message_prompt = (
         f'''
@@ -39,7 +58,7 @@ The goal is to inform and support the reader with accurate, trustworthy informat
 # Streamlit app UI
 st.title("Health & Well-being Message Generator 🌍❤️")
 
-prompt = st.text_area("Enter a health problem or SDG 3 topic:")
+prompt = st.text_area("Enter a health problem or related topic:")
 
 if st.button("Generate Message"):
     if prompt.strip():
@@ -51,7 +70,16 @@ if st.button("Generate Message"):
                 message = sdg3_message_generator(prompt)
                 st.success("Here's your message:")
                 st.write(message)
+
+                contacts = get_contact_info(prompt)
+                if contacts:
+                    st.markdown("---")
+                    st.info("You may find the following contact numbers helpful:")
+                    for contact in contacts:
+                        st.write(f"- {contact}")
+
                 st.markdown("---")
                 st.info("💡 **Tip:** If you feel your situation is urgent, please call emergency services immediately.")
     else:
         st.warning("Please enter a prompt first.")
+
