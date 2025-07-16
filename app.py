@@ -10,7 +10,7 @@ model = genai.GenerativeModel('models/gemini-1.5-flash')
 
 # Emergency keywords list
 emergency_keywords = [
-    "emergency", "heart attack", "accident", "unconscious", 
+    "emergency", "heart attack", "accident", "unconscious",
     "severe bleeding", "stroke", "choking", "collapse", "loss of consciousness"
 ]
 
@@ -23,17 +23,23 @@ def get_contact_info(text):
     contacts = []
 
     if any(word in text_lower for word in ["mental health", "depression", "anxiety", "suicide", "stress"]):
-        contacts.append("Mental Health Helpline: 9152987821")
-    if any(word in text_lower for word in ["heart", "cardiac", "stroke", "chest pain"]):
-        contacts.append("Cardiac Emergency Helpline: 1800-123-4567")
-    if any(word in text_lower for word in ["poisoning", "overdose"]):
-        contacts.append("Poison Control Helpline: 1800-111-222")
+        contacts.append("Mental Health Suggestion Number: 9825610449")
     if any(word in text_lower for word in ["women", "pregnancy", "maternal"]):
-        contacts.append("Women’s Health Helpline: 1800-999-888")
+        contacts.append("Women’s Health Suggestion Number: 9825610449")
     if any(word in text_lower for word in ["child", "pediatric", "newborn"]):
-        contacts.append("Child Health Helpline: 1800-555-4444")
+        contacts.append("Child Health Suggestion Number: 9825610449")
+    if any(word in text_lower for word in ["elderly", "senior", "old age"]):
+        contacts.append("Elderly Care Suggestion Number: 9825610449")
+    if any(word in text_lower for word in ["diabetes", "blood sugar"]):
+        contacts.append("Diabetes Suggestion Number: 9825610449")
+    if any(word in text_lower for word in ["tuberculosis", "tb"]):
+        contacts.append("TB Suggestion Number: 9825610449")
+    if any(word in text_lower for word in ["covid", "coronavirus", "pandemic"]):
+        contacts.append("COVID-19 Suggestion Number: 9825610449")
 
-    # Add more contact info blocks as needed
+    # General health helpline as default suggestion
+    if not contacts:
+        contacts.append("General Health Suggestion Number: 9825610449")
 
     return contacts
 
@@ -41,15 +47,14 @@ def sdg3_message_generator(prompt_text):
     message_prompt = (
         f'''
 You are a healthcare communication expert. Using the health problem or topic described here: "{prompt_text}", 
-write a clear, professional, and empathetic paragraph that:
+write a concise and clear health message in 2-3 sentences that:
 
-- Explains the health issue briefly
-- Highlights its importance or impact
-- Offers practical advice or encouragement
-- Uses formal, respectful language appropriate for a medical or health context
-- Avoids hashtags, emojis, and casual social media style
+- Briefly explains the issue
+- Offers simple advice or encouragement
+- Uses professional and empathetic language
+- Avoids hashtags, emojis, and casual tone
 
-The goal is to inform and support the reader with accurate, trustworthy information.
+Keep the message informative and supportive.
 '''
     )
     response = model.generate_content(message_prompt)
@@ -82,4 +87,5 @@ if st.button("Generate Message"):
                 st.info("💡 **Tip:** If you feel your situation is urgent, please call emergency services immediately.")
     else:
         st.warning("Please enter a prompt first.")
+
 
