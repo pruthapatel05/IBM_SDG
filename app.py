@@ -14,32 +14,41 @@ emergency_keywords = [
     "severe bleeding", "stroke", "choking", "collapse", "loss of consciousness"
 ]
 
+# Severe problem keywords list (broader)
+severe_keywords = [
+    "severe", "critical", "urgent", "life-threatening", "extreme", "intense"
+]
+
 def is_emergency(text):
     text_lower = text.lower()
     return any(keyword in text_lower for keyword in emergency_keywords)
+
+def is_severe_problem(text):
+    text_lower = text.lower()
+    return any(keyword in text_lower for keyword in severe_keywords)
 
 def get_contact_info(text):
     text_lower = text.lower()
     contacts = []
 
     if any(word in text_lower for word in ["mental health", "depression", "anxiety", "suicide", "stress"]):
-        contacts.append("Mental Health Suggestion Number: 9825610449")
+        contacts.append("Mental Health Helpline: 100")
     if any(word in text_lower for word in ["women", "pregnancy", "maternal"]):
-        contacts.append("Women’s Health Suggestion Number: 9825610449")
+        contacts.append("Women’s Health Helpline: 101")
     if any(word in text_lower for word in ["child", "pediatric", "newborn"]):
-        contacts.append("Child Health Suggestion Number: 9825610449")
+        contacts.append("Child Health Helpline: 102")
     if any(word in text_lower for word in ["elderly", "senior", "old age"]):
-        contacts.append("Elderly Care Suggestion Number: 9825610449")
+        contacts.append("Elderly Care Helpline: 104")
     if any(word in text_lower for word in ["diabetes", "blood sugar"]):
-        contacts.append("Diabetes Suggestion Number: 9825610449")
+        contacts.append("Diabetes Support Helpline: 105")
     if any(word in text_lower for word in ["tuberculosis", "tb"]):
-        contacts.append("TB Suggestion Number: 9825610449")
+        contacts.append("TB Helpline: 106")
     if any(word in text_lower for word in ["covid", "coronavirus", "pandemic"]):
-        contacts.append("COVID-19 Suggestion Number: 9825610449")
+        contacts.append("COVID-19 Helpline: 107")
 
     # General health helpline as default suggestion
     if not contacts:
-        contacts.append("General Health Suggestion Number: 9825610449")
+        contacts.append("General Health Helpline: 103")
 
     return contacts
 
@@ -70,6 +79,13 @@ if st.button("Generate Message"):
         if is_emergency(prompt):
             st.error("⚠️ Emergency detected! Please call 108 immediately!")
             st.markdown("[📞 Call 108 Now](tel:108)", unsafe_allow_html=True)
+        elif is_severe_problem(prompt):
+            st.warning("⚠️ Severe health issue detected. Please consider contacting emergency services at 108.")
+            contacts = get_contact_info(prompt)
+            st.markdown("---")
+            st.info("You may find the following contact numbers helpful:")
+            for contact in contacts:
+                st.write(f"- {contact}")
         else:
             with st.spinner("Generating message..."):
                 message = sdg3_message_generator(prompt)
@@ -87,5 +103,4 @@ if st.button("Generate Message"):
                 st.info("💡 **Tip:** If you feel your situation is urgent, please call emergency services immediately.")
     else:
         st.warning("Please enter a prompt first.")
-
 
