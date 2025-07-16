@@ -9,9 +9,8 @@ Original file is located at
 
 import google.generativeai as genai
 
-from getpass import getpass
-api_key = getpass("Enter your API key: ")
 
+API_KEY= 'AIzaSyCtH-FNTovcu__fEMOJyS6xXk4pV6TgbC8'
 
 
 genai.configure(api_key=api_key)
