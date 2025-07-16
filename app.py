@@ -49,7 +49,7 @@ if st.button("Generate Message"):
         else:
             with st.spinner("Generating message..."):
                 message = sdg3_message_generator(prompt)
-                st.success("Here's your social media message:")
+                st.success("Here's your message:")
                 st.write(message)
                 st.markdown("---")
                 st.info("💡 **Tip:** If you feel your situation is urgent, please call emergency services immediately.")
