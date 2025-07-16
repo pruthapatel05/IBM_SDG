@@ -10,7 +10,7 @@ Original file is located at
 import google.generativeai as genai
 
 
-API_KEY= 'AIzaSyCtH-FNTovcu__fEMOJyS6xXk4pV6TgbC8'
+api_key= 'AIzaSyCtH-FNTovcu__fEMOJyS6xXk4pV6TgbC8'
 
 
 genai.configure(api_key=api_key)
