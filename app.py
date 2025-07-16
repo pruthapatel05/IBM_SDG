@@ -21,19 +21,16 @@ def is_emergency(text):
 def sdg3_message_generator(prompt_text):
     message_prompt = (
         f'''
-You are a social media content expert focused on Sustainable Development Goal 3 (Good Health and Well-being). 
-Using the health problem or topic described here: "{prompt_text}", craft a **short, catchy, and friendly social media message** (max 250 characters) that:
+You are a healthcare communication expert. Using the health problem or topic described here: "{prompt_text}", 
+write a clear, professional, and empathetic paragraph that:
 
-- Grabs attention immediately
-- Uses clear, simple, and positive language
-- Includes 1 to 3 relevant, trending hashtags (related to health, well-being, or SDG3)
-- May include 1 or 2 emojis to add warmth and friendliness
-- Encourages awareness or action in a motivational tone
+- Explains the health issue briefly
+- Highlights its importance or impact
+- Offers practical advice or encouragement
+- Uses formal, respectful language appropriate for a medical or health context
+- Avoids hashtags, emojis, and casual social media style
 
-Example style:  
-"Breathe easy! Clean air = healthy lungs. Let's fight air pollution for better respiratory health. Join the movement! #CleanAir #HealthyLungs #SDG3"
-
-Create a message like that.
+The goal is to inform and support the reader with accurate, trustworthy information.
 '''
     )
     response = model.generate_content(message_prompt)
